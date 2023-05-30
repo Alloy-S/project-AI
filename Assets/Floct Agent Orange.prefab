@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2756773770022151958}
   - component: {fileID: 5939455608577388354}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Flock Agent Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: cce1b0cf188b03745becea6584a8d662, type: 3}
-  m_Color: {r: 0.8396226, g: 0.451092, b: 0.17030083, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 2285347164460134015}
   - component: {fileID: 8029841421182740381}
   - component: {fileID: 3366528146947401853}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Floct Agent Orange
   m_TagString: Untagged
   m_Icon: {fileID: 0}

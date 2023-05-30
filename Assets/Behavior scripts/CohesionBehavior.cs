@@ -24,4 +24,24 @@ public class CohesionBehavior : FilteredFlockBehavior
         cohesionMove -= (Vector2)agent.transform.position;
         return cohesionMove;
     }
+
+    public override Vector2 calculateMove(FlockAgent agent, List<Transform> context, UserFlock flock)
+    {
+        //if no neighbors, return no adjustment
+        if (context.Count == 0)
+            return Vector2.zero;
+
+        //add all points together and average
+        Vector2 cohesionMove = Vector2.zero;
+        List<Transform> filteredContext = (filter == null) ? context : filter.Filter(agent, context);
+        foreach (Transform item in filteredContext)
+        {
+            cohesionMove += (Vector2)item.position;
+        }
+        cohesionMove /= context.Count;
+
+        //create offset from agent position
+        cohesionMove -= (Vector2)agent.transform.position;
+        return cohesionMove;
+    }
 }
