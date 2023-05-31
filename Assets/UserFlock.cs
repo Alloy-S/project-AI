@@ -11,7 +11,7 @@ public class UserFlock : MonoBehaviour
 
     [Range(1, 1)]
     public int startingCount = 1;
-    const float agentDensity = 0.08f;
+    const float agentDensity = 1.5f;
 
     // move speed
     [Range(1f, 100f)]
@@ -49,24 +49,33 @@ public class UserFlock : MonoBehaviour
         }
     }
 
+    static Vector2 move = new Vector2(0f, 5f);
     // Update is called once per frame
     void Update()
     {
         foreach (FlockAgent agent in agents)
         {
-            List<Transform> context = GetNearbyObjects(agent);
+            Vector3 mousePos = Input.mousePosition;
+            mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
-            //FOR DEMO ONLY
-            // agent.GetComponentInChildren<SpriteRenderer>().color = Color.Lerp(Color.white, Color.red, context.Count / 6f);
+            if (Input.GetKey(KeyCode.Mouse0)){
+                move.x = (mousePos.x - transform.position.x) * driveFactor;
+                move.y = (mousePos.y - transform.position.y) * driveFactor;
 
-            Vector2 move = behavior.calculateMove(agent, context, this);
-            move *= driveFactor;
-            if (move.sqrMagnitude > squareMaxSpeed)
-            {
-                move = move.normalized * maxSpeed;
+                if (move.sqrMagnitude > squareMaxSpeed){
+                    move = move.normalized * maxSpeed;
+                }
+
             }
+
             agent.move(move);
         }
+    }
+
+    void OnGUI() {
+        GUILayout.BeginArea(new Rect(Screen.width - 400, 0, 400, Screen.height));
+        GUILayout.Label(move.x + "\n" + move.y);
+        GUILayout.EndArea();
     }
 
     List<Transform> GetNearbyObjects(FlockAgent agent)
