@@ -50,6 +50,8 @@ public class UserFlock : MonoBehaviour
     }
 
     static Vector2 move = new Vector2(0f, 5f);
+    public Vector2 center;
+
     // Update is called once per frame
     void Update()
     {
@@ -61,14 +63,32 @@ public class UserFlock : MonoBehaviour
             if (Input.GetKey(KeyCode.Mouse0)){
                 move.x = (mousePos.x - transform.position.x) * driveFactor;
                 move.y = (mousePos.y - transform.position.y) * driveFactor;
+            }
 
-                if (move.sqrMagnitude > squareMaxSpeed){
+        Vector2 centerOffset = center - (Vector2)agent.transform.position;
+        float t = centerOffset.magnitude / 15f;
+        if (t >= 1.5f)
+        {
+            move = centerOffset*t*t;
+        }
+
+        if (move.sqrMagnitude > squareMaxSpeed){
                     move = move.normalized * maxSpeed;
                 }
 
-            }
+        if (Input.GetKey("w") && Input.GetKey("a")){
+            move = new Vector2(-3.5f, 3.5f);
+        } else if (Input.GetKey("w") && Input.GetKey("d")){
+            move = new Vector2(3.5f, 3.5f);
+        } else if (Input.GetKey("s") && Input.GetKey("a")) {
+            move = new Vector2(-3.5f, -3.5f);
+        } else if (Input.GetKey("s") && Input.GetKey("d")) {
+            move = new Vector2(3.5f, -3.5f);
+        } else {
+            move = (Input.GetKey("w")) ? new Vector2(0f, 5f) : (Input.GetKey("s")) ? new Vector2(0f, -5f) : (Input.GetKey("a")) ? new Vector2(-5f, 0f) : (Input.GetKey("d")) ? new Vector2(5f , 0f) : move;
+        }
 
-            agent.move(move);
+        agent.move(move);
         }
     }
 
