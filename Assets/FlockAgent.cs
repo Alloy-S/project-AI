@@ -9,6 +9,9 @@ public class FlockAgent : MonoBehaviour
     Flock agentFlock;
     public Flock AgentFlock { get { return agentFlock; } }
 
+    UserFlock uFlock;
+    public UserFlock userFlock { get { return uFlock; } }
+
     Collider2D agentCollider;
     public Collider2D AgentCollider { get {return agentCollider;} }
     // Start is called before the first frame update
@@ -20,6 +23,11 @@ public class FlockAgent : MonoBehaviour
     public void Initialize(Flock flock)
     {
         agentFlock = flock;
+    }
+
+    public void Initialize(UserFlock flock)
+    {
+        uFlock = flock;
     }
 
     public void move(Vector2 velocity) {
