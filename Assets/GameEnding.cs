@@ -20,9 +20,12 @@ public class GameEnding : MonoBehaviour
 
     public bool gameOver;
 
+    public GameObject gameOverWindow;
+
     private void Start()
     {
-        BlurScreen.gameObject.SetActive(false);
+        gameOverWindow.SetActive(false);
+        // BlurScreen.gameObject.SetActive(false);
         // Starts the timer automatically
         timerIsRunning = true;
         gameOver = false;
@@ -43,7 +46,8 @@ public class GameEnding : MonoBehaviour
                 Debug.Log("Time has run out!");
                 timeRemaining = 0;
                 timerIsRunning = false;
-                BlurScreen.gameObject.SetActive(true);
+                // BlurScreen.gameObject.SetActive(true);
+                gameOverWindow.SetActive(true);
                 Time.timeScale = 0; //pause
                 gameOver = true;
             }
