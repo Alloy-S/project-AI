@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 public class GameEnding : MonoBehaviour
 {
-    public float timeRemaining = 60;
+    public static float playTime = 20;
     public bool timerIsRunning = false;
     public TextMeshProUGUI timeText;
     public Image BlurScreen;
@@ -13,14 +13,25 @@ public class GameEnding : MonoBehaviour
     public Text scoreVal; //to show our value
     // public Text increaseScore
     public Text gameOverText;
-    public int targetScore;
-    public int endScores;
+    public Text WinningCondition;
+    private static int scoreNow;
     // public int scoreValue;
-    public int growthRate;
 
     public bool gameOver;
 
     public GameObject gameOverWindow;
+
+    public static void setScore(int score){
+        scoreNow = score;
+    }
+
+    public static void addScore(int score){
+        scoreNow += score;
+    }
+
+    public static int getScore(){
+        return scoreNow;
+    }
 
     private void Start()
     {
@@ -32,19 +43,24 @@ public class GameEnding : MonoBehaviour
     }
     void Update()
     {
-        scoreVal.text = endScores.ToString("0");
+        scoreVal.text = scoreNow.ToString("0");
         
         if (timerIsRunning)
         {
-            if (timeRemaining > 0)
+            if (playTime > 0)
             {
-                timeRemaining -= Time.deltaTime;
-                DisplayTime(timeRemaining);
+                playTime -= Time.deltaTime;
+                DisplayTime(playTime);
             }
             else
             {
+                if (scoreNow >= Flock.total){
+                    WinningCondition.text = "YOU WIN!";
+                } else {
+                    WinningCondition.text = "YOU LOSE:(";
+                }
                 Debug.Log("Time has run out!");
-                timeRemaining = 0;
+                playTime = 0;
                 timerIsRunning = false;
                 // BlurScreen.gameObject.SetActive(true);
                 gameOverWindow.SetActive(true);
@@ -52,10 +68,6 @@ public class GameEnding : MonoBehaviour
                 gameOver = true;
             }
        }
-       if(gameOver == true)
-        {
-            ShowScore();
-        }
     }
     void DisplayTime(float timeToDisplay)
     {
@@ -64,12 +76,5 @@ public class GameEnding : MonoBehaviour
         float seconds = Mathf.FloorToInt(timeToDisplay % 60);
 
         timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-    }
-
-    void ShowScore(){
-    
-        if(endScores != targetScore && targetScore > endScores){
-            endScores += growthRate;
-        }
     }
 }

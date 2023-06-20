@@ -9,8 +9,9 @@ public class Flock : MonoBehaviour
     List<FlockAgent> agents = new List<FlockAgent>();
     public FlockBehavior behavior;
 
-    [Range(10, 500)]
+    [Range(1, 500)]
     public int startingCount = 250;
+    public static int total;
     const float agentDensity = 0.08f;
 
     // move speed
@@ -31,6 +32,7 @@ public class Flock : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        total = startingCount;
         squareMaxSpeed = maxSpeed * maxSpeed;
         squareNeighborRadius = neighborRadius * neighborRadius;
         squareAvoidanceRadius = squareNeighborRadius * avoidanceRadiusMultiplier * avoidanceRadiusMultiplier;

@@ -6,7 +6,7 @@ public class UserFlock : MonoBehaviour
 {
 
     public FlockAgent agentPrefab;
-    List<FlockAgent> agents = new List<FlockAgent>();
+    private FlockAgent agent;
     public FlockBehavior behavior;
 
     [Range(1, 1)]
@@ -35,18 +35,16 @@ public class UserFlock : MonoBehaviour
         squareNeighborRadius = neighborRadius * neighborRadius;
         squareAvoidanceRadius = squareNeighborRadius * avoidanceRadiusMultiplier * avoidanceRadiusMultiplier;
 
-        for (int i = 0; i < startingCount; i++)
-        {
-            FlockAgent newAgent = Instantiate(
-                agentPrefab,
-                Random.insideUnitCircle * startingCount * agentDensity,
-                Quaternion.Euler(Vector3.forward * Random.Range(0f, 360f)),
-                transform
-                );
-            newAgent.name = "Agent " + i;
-            newAgent.Initialize(this);
-            agents.Add(newAgent);
-        }
+        
+        agent = Instantiate(
+            agentPrefab,
+            Random.insideUnitCircle * startingCount * agentDensity,
+            Quaternion.Euler(Vector3.forward * Random.Range(0f, 360f)),
+            transform
+            );
+        agent.name = "UserFlock";
+        agent.Initialize(this);
+        
     }
 
     static Vector2 move = new Vector2(0f, 5f);
@@ -55,15 +53,15 @@ public class UserFlock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        foreach (FlockAgent agent in agents)
-        {
-            Vector3 mousePos = Input.mousePosition;
-            mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+        scoring(agent);
 
-            if (Input.GetKey(KeyCode.Mouse0)){
-                move.x = (mousePos.x - transform.position.x) * driveFactor;
-                move.y = (mousePos.y - transform.position.y) * driveFactor;
-            }
+        Vector3 mousePos = Input.mousePosition;
+        mousePos = Camera.main.ScreenToWorldPoint(mousePos);
+
+        if (Input.GetKey(KeyCode.Mouse0)){
+            move.x = (mousePos.x - transform.position.x) * driveFactor;
+            move.y = (mousePos.y - transform.position.y) * driveFactor;
+        }
 
         Vector2 centerOffset = center - (Vector2)agent.transform.position;
         float t = centerOffset.magnitude / 15f;
@@ -72,33 +70,48 @@ public class UserFlock : MonoBehaviour
             move = centerOffset*t*t;
         }
 
-        if (move.sqrMagnitude > squareMaxSpeed){
-                    move = move.normalized * maxSpeed;
-                }
-
+        bool key = false;
         if (Input.GetKey("w") && Input.GetKey("a")){
             move = new Vector2(-3.5f, 3.5f);
+            key = true;
         } else if (Input.GetKey("w") && Input.GetKey("d")){
             move = new Vector2(3.5f, 3.5f);
+            key = true;
         } else if (Input.GetKey("s") && Input.GetKey("a")) {
             move = new Vector2(-3.5f, -3.5f);
+            key = true;
         } else if (Input.GetKey("s") && Input.GetKey("d")) {
             move = new Vector2(3.5f, -3.5f);
+            key = true;
         } else {
             move = (Input.GetKey("w")) ? new Vector2(0f, 5f) : (Input.GetKey("s")) ? new Vector2(0f, -5f) : (Input.GetKey("a")) ? new Vector2(-5f, 0f) : (Input.GetKey("d")) ? new Vector2(5f , 0f) : move;
+            key = true;
         }
 
-        agent.move(move);
+        if (Input.GetKey("space")){
+            maxSpeed = 7f;
+            if (key){
+                move = new Vector2(move.x+Mathf.Sign(move.x)*2f, move.y+Mathf.Sign(move.y)*2f);
+            }
+        } else {
+            maxSpeed = 5f;
         }
+
+        if (move.sqrMagnitude > squareMaxSpeed){
+                    move = move.normalized * maxSpeed;
+            }
+
+        agent.move(move);
     }
 
     void OnGUI() {
-        GUILayout.BeginArea(new Rect(Screen.width - 400, 0, 400, Screen.height));
-        GUILayout.Label(move.x + "\n" + move.y);
+        GUI.skin.label.alignment = TextAnchor.UpperLeft;
+        GUILayout.BeginArea(new Rect(10, Screen.height-50, Screen.width, Screen.height));
+        GUILayout.Label("Target: " + Flock.total*0.75 + "\nPos. X:" + move.x + "\nPos. Y:"  + move.y + "\nScore: " + GameEnding.getScore() + "\nRemaining Time: " + (int) (GameEnding.playTime - Time.deltaTime));
         GUILayout.EndArea();
     }
 
-    List<Transform> GetNearbyObjects(FlockAgent agent)
+    void scoring(FlockAgent agent)
     {
         List<Transform> context = new List<Transform>();
         Collider2D[] contextColliders = Physics2D.OverlapCircleAll(agent.transform.position, neighborRadius);
@@ -109,6 +122,6 @@ public class UserFlock : MonoBehaviour
                 context.Add(c.transform);
             }
         }
-        return context;
+        GameEnding.setScore(context.Count);
     }
 }
