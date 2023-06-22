@@ -5,8 +5,8 @@ using UnityEngine.UI;
 using TMPro;
 public class GameEnding : MonoBehaviour
 {
-    public static float playTime = 20;
-    public bool timerIsRunning = false;
+    public static float playTime = 60;
+     bool timerIsRunning = false;
     public TextMeshProUGUI timeText;
     public Image BlurScreen;
 
@@ -17,7 +17,7 @@ public class GameEnding : MonoBehaviour
     private static int scoreNow;
     // public int scoreValue;
 
-    public bool gameOver;
+     bool gameOver;
 
     public GameObject gameOverWindow;
 

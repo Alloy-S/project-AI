@@ -106,7 +106,7 @@ public class UserFlock : MonoBehaviour
 
     void OnGUI() {
         GUI.skin.label.alignment = TextAnchor.UpperLeft;
-        GUILayout.BeginArea(new Rect(10, Screen.height-50, Screen.width, Screen.height));
+        GUILayout.BeginArea(new Rect(10, Screen.height-100, Screen.width, Screen.height));
         GUILayout.Label("Target: " + Flock.total*0.75 + "\nPos. X:" + move.x + "\nPos. Y:"  + move.y + "\nScore: " + GameEnding.getScore() + "\nRemaining Time: " + (int) (GameEnding.playTime - Time.deltaTime));
         GUILayout.EndArea();
     }

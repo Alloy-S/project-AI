@@ -889,13 +889,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8873b41823e004499e50b34832985a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timerIsRunning: 0
   timeText: {fileID: 2112531920}
   BlurScreen: {fileID: 374796350}
   scoreVal: {fileID: 474316911}
   gameOverText: {fileID: 978648913}
-  WinningCondition: {fileID: 0}
-  gameOver: 0
+  WinningCondition: {fileID: 2120822857}
   gameOverWindow: {fileID: 1845714642}
 --- !u!1 &1232210878
 GameObject:
@@ -1868,7 +1866,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 32.768204, y: 130}
+  m_AnchoredPosition: {x: 40, y: -10}
   m_SizeDelta: {x: 434.4907, y: 63.1802}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2120822857
