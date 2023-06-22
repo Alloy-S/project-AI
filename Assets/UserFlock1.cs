@@ -42,6 +42,18 @@ public class UserFlock1 : MonoBehaviour
         Debug.Log(PlayerMove);
     }
 
+    private void OnBoostPlayer1()
+    {
+        maxSpeed = 7f;
+        Debug.Log("boo");
+        move = new Vector2(move.x + Mathf.Sign(move.x) * 2f, move.y + Mathf.Sign(move.y) * 2f);
+        if (move.sqrMagnitude > squareMaxSpeed)
+        {
+            move = move.normalized * maxSpeed;
+        }
+        agent.move(move);
+    }
+
     void Start()
     {
         squareMaxSpeed = maxSpeed * maxSpeed;
@@ -89,6 +101,8 @@ public class UserFlock1 : MonoBehaviour
             move = centerOffset*t*t;
         }
 
+
+
         bool key = false;
         if (Input.GetKey("i") && Input.GetKey("j")){
             move = new Vector2(-3.5f, 3.5f);
@@ -123,12 +137,12 @@ public class UserFlock1 : MonoBehaviour
         agent.move(move);
     }
 
-    void OnGUI() {
-        GUI.skin.label.alignment = TextAnchor.UpperLeft;
-        GUILayout.BeginArea(new Rect(10, Screen.height-100, Screen.width, Screen.height));
-        GUILayout.Label("Target: " + Flock.total*0.75 + "\nPos. X:" + move.x + "\nPos. Y:"  + move.y + "\nScore: " + GameEnding.getScore() + "\nRemaining Time: " + (int) (GameEnding.playTime - Time.deltaTime));
-        GUILayout.EndArea();
-    }
+    // void OnGUI() {
+    //     GUI.skin.label.alignment = TextAnchor.UpperLeft;
+    //     GUILayout.BeginArea(new Rect(10, Screen.height-100, Screen.width, Screen.height));
+    //     GUILayout.Label("Target: " + Flock.total*0.75 + "\nPos. X:" + move.x + "\nPos. Y:"  + move.y + "\nScore: " + GameEnding.getScore() + "\nRemaining Time: " + (int) (GameEnding.playTime - Time.deltaTime));
+    //     GUILayout.EndArea();
+    // }
 
     void scoring(FlockAgent agent)
     {

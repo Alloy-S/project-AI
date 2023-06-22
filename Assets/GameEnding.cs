@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 public class GameEnding : MonoBehaviour
 {
-    public static float playTime = 60;
+    public static float playTime;
      bool timerIsRunning = false;
     public TextMeshProUGUI timeText;
     public Image BlurScreen;
@@ -21,6 +22,11 @@ public class GameEnding : MonoBehaviour
 
     public GameObject gameOverWindow;
 
+    public GameObject cagePlayer1;
+    public GameObject cagePlayer2;
+
+    
+
     public static void setScore(int score){
         scoreNow = score;
     }
@@ -35,6 +41,8 @@ public class GameEnding : MonoBehaviour
 
     private void Start()
     {
+
+        playTime = 2;
         gameOverWindow.SetActive(false);
         // BlurScreen.gameObject.SetActive(false);
         // Starts the timer automatically
@@ -54,12 +62,14 @@ public class GameEnding : MonoBehaviour
             }
             else
             {
-                if (scoreNow >= Flock.total){
-                    WinningCondition.text = "YOU WIN!";
+                if (cagePlayer1.GetComponent<CountScore>().getScore() < cagePlayer2.GetComponent<CountScore>().getScore()) {
+                    WinningCondition.text = "Player 2 WIN!!!";
+                } else if (cagePlayer1.GetComponent<CountScore>().getScore() > cagePlayer2.GetComponent<CountScore>().getScore()) {
+                    WinningCondition.text = "Player 1 WIN!!!";
                 } else {
-                    WinningCondition.text = "YOU LOSE:(";
+                    WinningCondition.text = "DRAW";
                 }
-                Debug.Log("Time has run out!");
+
                 playTime = 0;
                 timerIsRunning = false;
                 // BlurScreen.gameObject.SetActive(true);
@@ -76,5 +86,10 @@ public class GameEnding : MonoBehaviour
         float seconds = Mathf.FloorToInt(timeToDisplay % 60);
 
         timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
+
+    public void reloadScene()
+    {
+        SceneManager.LoadScene("MainScene");
     }
 }

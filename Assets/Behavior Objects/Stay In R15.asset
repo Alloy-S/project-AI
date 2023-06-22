@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   center: {x: 0, y: 0}
   cage: {fileID: 7891324439929549751, guid: ac669ffce7acc70408bf8fedb72bdc61, type: 3}
-  radius: 15
+  radius: 25

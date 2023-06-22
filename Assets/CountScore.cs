@@ -22,6 +22,10 @@ public class CountScore : MonoBehaviour
         scoreText.text = nama + ": " + score;
     }
 
+    public int getScore() {
+        return score;
+    }
+
     void OnTriggerEnter2D(Collider2D other) {
         // Debug.Log("kena");
         if (other.gameObject.tag == "Flock") {

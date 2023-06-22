@@ -34,19 +34,25 @@ public class UserFlock2 : MonoBehaviour
     Vector2 PlayerMove;
     // void Awake() {
     //     controls = new PlayerControls();
-        
+
     // }
 
-    private void OnMovePlayer2(InputValue value) {
+    private void OnMovePlayer2(InputValue value)
+    {
         PlayerMove = value.Get<Vector2>();
         Debug.Log(PlayerMove);
     }
 
-    private void OnBoostPlayer2() {
+    private void OnBoostPlayer2()
+    {
         maxSpeed = 7f;
-            
-        move = new Vector2(move.x+Mathf.Sign(move.x)*2f, move.y+Mathf.Sign(move.y)*2f);
-            
+        Debug.Log("boo");
+        move = new Vector2(move.x + Mathf.Sign(move.x) * 2f, move.y + Mathf.Sign(move.y) * 2f);
+        if (move.sqrMagnitude > squareMaxSpeed)
+        {
+            move = move.normalized * maxSpeed;
+        }
+        agent.move(move);
     }
 
     void Start()
@@ -55,7 +61,7 @@ public class UserFlock2 : MonoBehaviour
         squareNeighborRadius = neighborRadius * neighborRadius;
         squareAvoidanceRadius = squareNeighborRadius * avoidanceRadiusMultiplier * avoidanceRadiusMultiplier;
 
-        
+
         agent = Instantiate(
             agentPrefab,
             Random.insideUnitCircle * startingCount * agentDensity,
@@ -64,7 +70,7 @@ public class UserFlock2 : MonoBehaviour
             );
         agent.name = "UserFlock";
         agent.Initialize(this);
-        
+
     }
 
     static Vector2 move = new Vector2(0f, 5f);
@@ -79,12 +85,14 @@ public class UserFlock2 : MonoBehaviour
         Vector3 mousePos = Input.mousePosition;
         mousePos = Camera.main.ScreenToWorldPoint(mousePos);
 
-        if (Input.GetKey(KeyCode.Mouse0)){
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
             move.x = (mousePos.x - transform.position.x) * driveFactor;
             move.y = (mousePos.y - transform.position.y) * driveFactor;
         }
 
-        if (PlayerMove != new Vector2(0, 0)) {
+        if (PlayerMove != new Vector2(0, 0))
+        {
             move = PlayerMove * driveFactor;
         }
 
@@ -93,47 +101,62 @@ public class UserFlock2 : MonoBehaviour
         float t = centerOffset.magnitude / 25f;
         if (t >= 1.5f)
         {
-            move = centerOffset*t*t;
+            move = centerOffset * t * t;
         }
 
         bool key = false;
-        if (Input.GetKey("w") && Input.GetKey("a")){
+        if (Input.GetKey("w") && Input.GetKey("a"))
+        {
             move = new Vector2(-3.5f, 3.5f);
             key = true;
-        } else if (Input.GetKey("w") && Input.GetKey("d")){
+        }
+        else if (Input.GetKey("w") && Input.GetKey("d"))
+        {
             move = new Vector2(3.5f, 3.5f);
             key = true;
-        } else if (Input.GetKey("s") && Input.GetKey("a")) {
+        }
+        else if (Input.GetKey("s") && Input.GetKey("a"))
+        {
             move = new Vector2(-3.5f, -3.5f);
             key = true;
-        } else if (Input.GetKey("s") && Input.GetKey("d")) {
+        }
+        else if (Input.GetKey("s") && Input.GetKey("d"))
+        {
             move = new Vector2(3.5f, -3.5f);
             key = true;
-        } else {
-            move = (Input.GetKey("w")) ? new Vector2(0f, 5f) : (Input.GetKey("s")) ? new Vector2(0f, -5f) : (Input.GetKey("a")) ? new Vector2(-5f, 0f) : (Input.GetKey("d")) ? new Vector2(5f , 0f) : move;
+        }
+        else
+        {
+            move = (Input.GetKey("w")) ? new Vector2(0f, 5f) : (Input.GetKey("s")) ? new Vector2(0f, -5f) : (Input.GetKey("a")) ? new Vector2(-5f, 0f) : (Input.GetKey("d")) ? new Vector2(5f, 0f) : move;
             key = true;
         }
 
-        if (Input.GetKey("space")){
+        if (Input.GetKey("space"))
+        {
             maxSpeed = 7f;
-            if (key){
-                move = new Vector2(move.x+Mathf.Sign(move.x)*2f, move.y+Mathf.Sign(move.y)*2f);
+            if (key)
+            {
+                move = new Vector2(move.x + Mathf.Sign(move.x) * 2f, move.y + Mathf.Sign(move.y) * 2f);
             }
-        } else {
+        }
+        else
+        {
             maxSpeed = 5f;
         }
 
-        if (move.sqrMagnitude > squareMaxSpeed){
-                    move = move.normalized * maxSpeed;
-            }
+        if (move.sqrMagnitude > squareMaxSpeed)
+        {
+            move = move.normalized * maxSpeed;
+        }
 
         agent.move(move);
     }
 
-    void OnGUI() {
+    void OnGUI()
+    {
         GUI.skin.label.alignment = TextAnchor.UpperLeft;
-        GUILayout.BeginArea(new Rect(10, Screen.height-100, Screen.width, Screen.height));
-        GUILayout.Label("Target: " + Flock.total*0.75 + "\nPos. X:" + move.x + "\nPos. Y:"  + move.y + "\nScore: " + GameEnding.getScore() + "\nRemaining Time: " + (int) (GameEnding.playTime - Time.deltaTime));
+        GUILayout.BeginArea(new Rect(10, Screen.height - 100, Screen.width, Screen.height));
+        GUILayout.Label("Target: " + Flock.total * 0.75 + "\nPos. X:" + move.x + "\nPos. Y:" + move.y + "\nScore: " + GameEnding.getScore() + "\nRemaining Time: " + (int)(GameEnding.playTime - Time.deltaTime));
         GUILayout.EndArea();
     }
 
