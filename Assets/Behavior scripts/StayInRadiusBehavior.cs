@@ -6,12 +6,16 @@ using UnityEngine;
 public class StayInRadiusBehavior : FlockBehavior
 {
     public Vector2 center;
-    public float radius = 15f;
+    public GameObject cage;
+    public float radius;
 
     public override Vector2 calculateMove(FlockAgent agent, List<Transform> context, Flock flock)
     {
+        float t;
+
+        agent.GetComponentInChildren<SpriteRenderer>().color = Color.red;
         Vector2 centerOffset = center - (Vector2)agent.transform.position;
-        float t = centerOffset.magnitude / radius;
+        t = centerOffset.magnitude / radius;
         if (t < 0.9f)
         {
             return Vector2.zero;

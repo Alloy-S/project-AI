@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class UserFlock : MonoBehaviour
+public class UserFlock1 : MonoBehaviour
 {
 
     public FlockAgent agentPrefab;
@@ -29,6 +30,18 @@ public class UserFlock : MonoBehaviour
     public float SquareAvoidanceRadius { get { return squareAvoidanceRadius; } }
 
     // Start is called before the first frame update
+    PlayerControls controls;
+    Vector2 PlayerMove;
+    // void Awake() {
+    //     controls = new PlayerControls();
+        
+    // }
+
+    private void OnMovePlayer1(InputValue value) {
+        PlayerMove = value.Get<Vector2>();
+        Debug.Log(PlayerMove);
+    }
+
     void Start()
     {
         squareMaxSpeed = maxSpeed * maxSpeed;
@@ -53,6 +66,7 @@ public class UserFlock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Debug.Log(horizontalRight);
         scoring(agent);
 
         Vector3 mousePos = Input.mousePosition;
@@ -63,28 +77,33 @@ public class UserFlock : MonoBehaviour
             move.y = (mousePos.y - transform.position.y) * driveFactor;
         }
 
+        if (PlayerMove != new Vector2(0, 0)) {
+            move = PlayerMove * driveFactor;
+        }
+
+
         Vector2 centerOffset = center - (Vector2)agent.transform.position;
-        float t = centerOffset.magnitude / 15f;
+        float t = centerOffset.magnitude / 25f;
         if (t >= 1.5f)
         {
             move = centerOffset*t*t;
         }
 
         bool key = false;
-        if (Input.GetKey("w") && Input.GetKey("a")){
+        if (Input.GetKey("i") && Input.GetKey("j")){
             move = new Vector2(-3.5f, 3.5f);
             key = true;
-        } else if (Input.GetKey("w") && Input.GetKey("d")){
+        } else if (Input.GetKey("i") && Input.GetKey("k")){
             move = new Vector2(3.5f, 3.5f);
             key = true;
-        } else if (Input.GetKey("s") && Input.GetKey("a")) {
+        } else if (Input.GetKey("k") && Input.GetKey("j")) {
             move = new Vector2(-3.5f, -3.5f);
             key = true;
-        } else if (Input.GetKey("s") && Input.GetKey("d")) {
+        } else if (Input.GetKey("k") && Input.GetKey("l")) {
             move = new Vector2(3.5f, -3.5f);
             key = true;
         } else {
-            move = (Input.GetKey("w")) ? new Vector2(0f, 5f) : (Input.GetKey("s")) ? new Vector2(0f, -5f) : (Input.GetKey("a")) ? new Vector2(-5f, 0f) : (Input.GetKey("d")) ? new Vector2(5f , 0f) : move;
+            move = (Input.GetKey("i")) ? new Vector2(0f, 5f) : (Input.GetKey("k")) ? new Vector2(0f, -5f) : (Input.GetKey("j")) ? new Vector2(-5f, 0f) : (Input.GetKey("l")) ? new Vector2(5f , 0f) : move;
             key = true;
         }
 

@@ -9,8 +9,11 @@ public class FlockAgent : MonoBehaviour
     Flock agentFlock;
     public Flock AgentFlock { get { return agentFlock; } }
 
-    UserFlock uFlock;
-    public UserFlock userFlock { get { return uFlock; } }
+    UserFlock1 uFlock1;
+    public UserFlock1 userFlock1 { get { return uFlock1; } }
+
+    UserFlock2 uFlock2;
+    public UserFlock2 userFlock2 { get { return uFlock2; } }
 
     Collider2D agentCollider;
     public Collider2D AgentCollider { get {return agentCollider;} }
@@ -25,9 +28,14 @@ public class FlockAgent : MonoBehaviour
         agentFlock = flock;
     }
 
-    public void Initialize(UserFlock flock)
+    public void Initialize(UserFlock1 flock)
     {
-        uFlock = flock;
+        uFlock1 = flock;
+    }
+
+    public void Initialize(UserFlock2 flock)
+    {
+        uFlock2 = flock;
     }
 
     public void move(Vector2 velocity) {

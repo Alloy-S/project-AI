@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 3366528146947401853}
   m_Layer: 7
   m_Name: Floct Agent Blue
-  m_TagString: Untagged
+  m_TagString: Flock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

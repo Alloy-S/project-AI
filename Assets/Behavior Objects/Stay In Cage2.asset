@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 709379443f4be03469255630245c6e97, type: 3}
-  m_Name: Stay In R15
+  m_Script: {fileID: 11500000, guid: db0605a1898bb774f86065fe05d285be, type: 3}
+  m_Name: Stay In Cage2
   m_EditorClassIdentifier: 
-  center: {x: 0, y: 0}
-  cage: {fileID: 7891324439929549751, guid: ac669ffce7acc70408bf8fedb72bdc61, type: 3}
-  radius: 15
+  cage: {fileID: 1248940949046498346, guid: 37a1ad7afb154cb459e757ebec5bf94a, type: 3}
