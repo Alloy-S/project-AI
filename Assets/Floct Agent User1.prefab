@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 8029841421182740381}
   - component: {fileID: 3366528146947401853}
   m_Layer: 7
-  m_Name: Floct Agent Orange
+  m_Name: Floct Agent User1
   m_TagString: Flock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -46,7 +46,7 @@ public class GameEnding : MonoBehaviour
 
     private void Start()
     {
-        playTime = 8;
+        playTime = 30;
         gameOverWindow.SetActive(false);
         // BlurScreen.gameObject.SetActive(false);
         // Starts the timer automatically

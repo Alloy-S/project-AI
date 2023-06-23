@@ -8,10 +8,7 @@ public class UserFlock2 : MonoBehaviour
 
     public FlockAgent agentPrefab;
     private FlockAgent agent;
-    public FlockBehavior behavior;
 
-    [Range(1, 1)]
-    public int startingCount = 1;
     const float agentDensity = 1.5f;
 
     // move speed
@@ -64,7 +61,7 @@ public class UserFlock2 : MonoBehaviour
 
         agent = Instantiate(
             agentPrefab,
-            Random.insideUnitCircle * startingCount * agentDensity,
+            Random.insideUnitCircle * agentDensity,
             Quaternion.Euler(Vector3.forward * Random.Range(0f, 360f)),
             transform
             );
@@ -80,7 +77,6 @@ public class UserFlock2 : MonoBehaviour
     void Update()
     {
         // Debug.Log(horizontalRight);
-        scoring(agent);
 
         Vector3 mousePos = Input.mousePosition;
         mousePos = Camera.main.ScreenToWorldPoint(mousePos);
@@ -150,27 +146,5 @@ public class UserFlock2 : MonoBehaviour
         }
 
         agent.move(move);
-    }
-
-    void OnGUI()
-    {
-        GUI.skin.label.alignment = TextAnchor.UpperLeft;
-        GUILayout.BeginArea(new Rect(10, Screen.height - 100, Screen.width, Screen.height));
-        GUILayout.Label("Target: " + Flock.total * 0.75 + "\nPos. X:" + move.x + "\nPos. Y:" + move.y + "\nScore: " + GameEnding.getScore() + "\nRemaining Time: " + (int)(GameEnding.playTime - Time.deltaTime));
-        GUILayout.EndArea();
-    }
-
-    void scoring(FlockAgent agent)
-    {
-        List<Transform> context = new List<Transform>();
-        Collider2D[] contextColliders = Physics2D.OverlapCircleAll(agent.transform.position, neighborRadius);
-        foreach (Collider2D c in contextColliders)
-        {
-            if (c != agent.AgentCollider)
-            {
-                context.Add(c.transform);
-            }
-        }
-        GameEnding.setScore(context.Count);
     }
 }
