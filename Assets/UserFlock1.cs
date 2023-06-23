@@ -117,6 +117,7 @@ public class UserFlock1 : MonoBehaviour
             key = true;
         }
 
+
         if (Input.GetKey("space")){
             maxSpeed = 7f;
             if (key){

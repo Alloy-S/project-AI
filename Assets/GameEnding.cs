@@ -52,12 +52,11 @@ public class GameEnding : MonoBehaviour
         // Starts the timer automatically
         timerIsRunning = true;
         gameOver = false;
+        Time.timeScale = 1; 
     }
     void Update()
     {  
-         Debug.Log("adananfajnda");     
-        if (timerIsRunning)
-        {
+        scoreVal.text = endScores.ToString();
             if (playTime > 0)
             {
                 playTime -= Time.deltaTime;
@@ -69,34 +68,25 @@ public class GameEnding : MonoBehaviour
                 gameOver = true;
                 if (cagePlayer1.GetComponent<CountScore>().getScore() < cagePlayer2.GetComponent<CountScore>().getScore()) {
                     WinningCondition.text = "Player 2 WIN!!!";
-                    check = 2;
-                    if(gameOver == true){
-                        scoreVal.text = showScore(endScores, cagePlayer2.GetComponent<CountScore>().getScore()).ToString();
-                    }
+                    // check = 2;
+                    scoreVal.text = showScore(cagePlayer2.GetComponent<CountScore>().getScore()).ToString();
+
                 } else if (cagePlayer1.GetComponent<CountScore>().getScore() > cagePlayer2.GetComponent<CountScore>().getScore()) {
                     WinningCondition.text = "Player 1 WIN!!!";
-                    check = 1;
+                    // check = 1;
+                    scoreVal.text = showScore(cagePlayer1.GetComponent<CountScore>().getScore()).ToString();
+
                 } else {
                     WinningCondition.text = "DRAW";
                 }
-                // scoreVal.text = endScores.ToString();
+                
 
-                playTime = 0;
+                // playTime = 0;
                 timerIsRunning = false;
                 // BlurScreen.gameObject.SetActive(true);
                 gameOverWindow.SetActive(true);
                 Time.timeScale = 0; //pause
-
-                if(gameOver == true){
-                    if(check == 1){
-                        scoreVal.text = showScore(endScores, cagePlayer1.GetComponent<CountScore>().getScore()).ToString();
-                    }else if(check == 2){
-                        scoreVal.text = showScore(endScores, cagePlayer2.GetComponent<CountScore>().getScore()).ToString();
-                    }
-                }
             }
-       }
-
     }
     void DisplayTime(float timeToDisplay)
     {
@@ -113,11 +103,13 @@ public class GameEnding : MonoBehaviour
         SceneManager.LoadScene("MainScene");
     }
 
-    int showScore(int endScores, int targetScore){
-         if(endScores != targetScore && targetScore > endScores){
+    int showScore(int targetScore)
+    {
+        if (targetScore > endScores)
+        {
             endScores += growthRate;
         }
-        Debug.Log("endScores");
+
         return endScores;
     }
 }
