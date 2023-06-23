@@ -17,7 +17,6 @@ public class GameEnding : MonoBehaviour
     public int targetScore;
 
     public int endScores;
-    bool timeUp;
 
     public GameObject gameOverWindow;
 
@@ -30,7 +29,6 @@ public class GameEnding : MonoBehaviour
         gameOverWindow.SetActive(false);
         // BlurScreen.gameObject.SetActive(false);
         // Starts the timer automatically
-        timeUp = false;
         Time.timeScale = 1;
         endScores = 0;
         targetScore = 0;
@@ -45,7 +43,6 @@ public class GameEnding : MonoBehaviour
             }
             else
             {
-                timeUp = true;
                 if (cagePlayer1.GetComponent<CountScore>().getScore() < cagePlayer2.GetComponent<CountScore>().getScore()) {
                     WinningCondition.text = "Player 2 WIN!!!";
                     scoreVal.text = showScore(cagePlayer2.GetComponent<CountScore>().getScore()).ToString();
@@ -60,6 +57,11 @@ public class GameEnding : MonoBehaviour
                 gameOverWindow.SetActive(true);
                 Time.timeScale = 0; //pause
             }
+
+            if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+        }
     }
     void DisplayTime(float timeToDisplay)
     {
