@@ -7,56 +7,37 @@ using UnityEngine.SceneManagement;
 public class GameEnding : MonoBehaviour
 {
     public static float playTime;
-     bool timerIsRunning = false;
     public TextMeshProUGUI timeText;
-    public Image BlurScreen;
 
     public int growthRate;
 
     public Text scoreVal; //to show our value
-    // public Text increaseScore
-    public Text gameOverText;
     public Text WinningCondition;
     // private static int scoreNow;
-    public static int targetScore;
+    public int targetScore;
 
-    public static int endScores;
-
-    public int check;
-    bool gameOver;
+    public int endScores;
+    bool timeUp;
 
     public GameObject gameOverWindow;
 
     public GameObject cagePlayer1;
     public GameObject cagePlayer2;
 
-    
-
-    public static void setScore(int score){
-        targetScore = score;
-    }
-
-    public static void addScore(int score){
-        targetScore += score;
-    }
-
-    public static int getScore(){
-        return targetScore;
-    }
-
     private void Start()
     {
-        playTime = 30;
+        playTime = 60;
         gameOverWindow.SetActive(false);
         // BlurScreen.gameObject.SetActive(false);
         // Starts the timer automatically
-        timerIsRunning = true;
-        gameOver = false;
-        Time.timeScale = 1; 
+        timeUp = false;
+        Time.timeScale = 1;
+        endScores = 0;
+        targetScore = 0;
     }
     void Update()
     {  
-        scoreVal.text = endScores.ToString();
+        
             if (playTime > 0)
             {
                 playTime -= Time.deltaTime;
@@ -64,25 +45,17 @@ public class GameEnding : MonoBehaviour
             }
             else
             {
-                Debug.Log("end");
-                gameOver = true;
+                timeUp = true;
                 if (cagePlayer1.GetComponent<CountScore>().getScore() < cagePlayer2.GetComponent<CountScore>().getScore()) {
                     WinningCondition.text = "Player 2 WIN!!!";
-                    // check = 2;
                     scoreVal.text = showScore(cagePlayer2.GetComponent<CountScore>().getScore()).ToString();
-
                 } else if (cagePlayer1.GetComponent<CountScore>().getScore() > cagePlayer2.GetComponent<CountScore>().getScore()) {
                     WinningCondition.text = "Player 1 WIN!!!";
-                    // check = 1;
                     scoreVal.text = showScore(cagePlayer1.GetComponent<CountScore>().getScore()).ToString();
-
                 } else {
                     WinningCondition.text = "DRAW";
+                    scoreVal.text = showScore(cagePlayer1.GetComponent<CountScore>().getScore()).ToString();
                 }
-                
-
-                // playTime = 0;
-                timerIsRunning = false;
                 // BlurScreen.gameObject.SetActive(true);
                 gameOverWindow.SetActive(true);
                 Time.timeScale = 0; //pause
@@ -100,16 +73,15 @@ public class GameEnding : MonoBehaviour
     public void reloadScene()
     {
         Time.timeScale = 1;
+        targetScore = 0;
         SceneManager.LoadScene("MainScene");
     }
 
     int showScore(int targetScore)
     {
-        if (targetScore > endScores)
-        {
+       if (this.endScores < targetScore) {
             endScores += growthRate;
-        }
-
-        return endScores;
+       }
+       return endScores;
     }
 }

@@ -65,6 +65,7 @@ public class UserFlock1 : MonoBehaviour
             transform
             );
         agent.name = "UserFlock";
+        agent.tag = "Player";
         agent.Initialize(this);
         
     }

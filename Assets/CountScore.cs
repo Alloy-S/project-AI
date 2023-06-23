@@ -14,6 +14,7 @@ public class CountScore : MonoBehaviour
     void Start()
     {
         flocks = new List<GameObject>();
+        score = 0;
     }
 
     // Update is called once per frame
