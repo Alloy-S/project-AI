@@ -79,7 +79,7 @@ public class UserFlock1 : MonoBehaviour
     void Update()
     {
         // Debug.Log(horizontalRight);
-        scoring(agent);
+        List<Transform> context = GetNearbyObjects(agent);
 
         Vector3 mousePos = Input.mousePosition;
         mousePos = Camera.main.ScreenToWorldPoint(mousePos);
@@ -121,6 +121,7 @@ public class UserFlock1 : MonoBehaviour
             key = true;
         }
 
+
         if (Input.GetKey("space")){
             maxSpeed = 7f;
             if (key){
@@ -144,7 +145,7 @@ public class UserFlock1 : MonoBehaviour
     //     GUILayout.EndArea();
     // }
 
-    void scoring(FlockAgent agent)
+   List<Transform> GetNearbyObjects(FlockAgent agent)
     {
         List<Transform> context = new List<Transform>();
         Collider2D[] contextColliders = Physics2D.OverlapCircleAll(agent.transform.position, neighborRadius);
@@ -156,5 +157,6 @@ public class UserFlock1 : MonoBehaviour
             }
         }
         GameEnding.setScore(context.Count);
+        return context;
     }
 }

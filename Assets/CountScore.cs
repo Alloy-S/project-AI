@@ -30,7 +30,7 @@ public class CountScore : MonoBehaviour
         // Debug.Log("kena");
         if (other.gameObject.tag == "Flock") {
             
-            score++;
+            score += 10;
             flocks.Add(other.gameObject);
         }
     }
