@@ -42,7 +42,7 @@ public class GameEnding : MonoBehaviour
     private void Start()
     {
 
-        playTime = 2;
+        playTime = 60;
         gameOverWindow.SetActive(false);
         // BlurScreen.gameObject.SetActive(false);
         // Starts the timer automatically
@@ -90,6 +90,7 @@ public class GameEnding : MonoBehaviour
 
     public void reloadScene()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("MainScene");
     }
 }
