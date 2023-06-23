@@ -39,7 +39,7 @@ public class UserFlock1 : MonoBehaviour
 
     private void OnMovePlayer1(InputValue value) {
         PlayerMove = value.Get<Vector2>();
-        Debug.Log(PlayerMove);
+        // Debug.Log(PlayerMove);
     }
 
     private void OnBoostPlayer1()

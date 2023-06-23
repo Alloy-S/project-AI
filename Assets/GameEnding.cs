@@ -11,14 +11,19 @@ public class GameEnding : MonoBehaviour
     public TextMeshProUGUI timeText;
     public Image BlurScreen;
 
+    public int growthRate;
+
     public Text scoreVal; //to show our value
     // public Text increaseScore
     public Text gameOverText;
     public Text WinningCondition;
-    private static int scoreNow;
-    // public int scoreValue;
+    // private static int scoreNow;
+    public static int targetScore;
 
-     bool gameOver;
+    public static int endScores;
+
+    public int check;
+    bool gameOver;
 
     public GameObject gameOverWindow;
 
@@ -28,21 +33,20 @@ public class GameEnding : MonoBehaviour
     
 
     public static void setScore(int score){
-        scoreNow = score;
+        targetScore = score;
     }
 
     public static void addScore(int score){
-        scoreNow += score;
+        targetScore += score;
     }
 
     public static int getScore(){
-        return scoreNow;
+        return targetScore;
     }
 
     private void Start()
     {
-
-        playTime = 60;
+        playTime = 8;
         gameOverWindow.SetActive(false);
         // BlurScreen.gameObject.SetActive(false);
         // Starts the timer automatically
@@ -50,9 +54,8 @@ public class GameEnding : MonoBehaviour
         gameOver = false;
     }
     void Update()
-    {
-        scoreVal.text = scoreNow.ToString("0");
-        
+    {  
+         Debug.Log("adananfajnda");     
         if (timerIsRunning)
         {
             if (playTime > 0)
@@ -62,22 +65,38 @@ public class GameEnding : MonoBehaviour
             }
             else
             {
+                Debug.Log("end");
+                gameOver = true;
                 if (cagePlayer1.GetComponent<CountScore>().getScore() < cagePlayer2.GetComponent<CountScore>().getScore()) {
                     WinningCondition.text = "Player 2 WIN!!!";
+                    check = 2;
+                    if(gameOver == true){
+                        scoreVal.text = showScore(endScores, cagePlayer2.GetComponent<CountScore>().getScore()).ToString();
+                    }
                 } else if (cagePlayer1.GetComponent<CountScore>().getScore() > cagePlayer2.GetComponent<CountScore>().getScore()) {
                     WinningCondition.text = "Player 1 WIN!!!";
+                    check = 1;
                 } else {
                     WinningCondition.text = "DRAW";
                 }
+                // scoreVal.text = endScores.ToString();
 
                 playTime = 0;
                 timerIsRunning = false;
                 // BlurScreen.gameObject.SetActive(true);
                 gameOverWindow.SetActive(true);
                 Time.timeScale = 0; //pause
-                gameOver = true;
+
+                if(gameOver == true){
+                    if(check == 1){
+                        scoreVal.text = showScore(endScores, cagePlayer1.GetComponent<CountScore>().getScore()).ToString();
+                    }else if(check == 2){
+                        scoreVal.text = showScore(endScores, cagePlayer2.GetComponent<CountScore>().getScore()).ToString();
+                    }
+                }
             }
        }
+
     }
     void DisplayTime(float timeToDisplay)
     {
@@ -92,5 +111,13 @@ public class GameEnding : MonoBehaviour
     {
         Time.timeScale = 1;
         SceneManager.LoadScene("MainScene");
+    }
+
+    int showScore(int endScores, int targetScore){
+         if(endScores != targetScore && targetScore > endScores){
+            endScores += growthRate;
+        }
+        Debug.Log("endScores");
+        return endScores;
     }
 }
